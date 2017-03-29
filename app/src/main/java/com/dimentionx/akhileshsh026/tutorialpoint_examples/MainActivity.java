@@ -1,7 +1,10 @@
 package com.dimentionx.akhileshsh026.tutorialpoint_examples;
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.speech.tts.Voice;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -9,61 +12,29 @@ import android.view.View;
 
 public class MainActivity extends AppCompatActivity {
 
-    String Msg = "Akhilesh Android : ";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Configuration config= getResources().getConfiguration();
+        android.app.FragmentManager fragmentManager= getFragmentManager();
+        android.app.FragmentTransaction fragmentTransaction= fragmentManager.beginTransaction();
+        if(config.orientation == Configuration.ORIENTATION_LANDSCAPE)
+        {
+            LM_fragment ls_fragment= new LM_fragment();
+            fragmentTransaction.replace(android.R.id.content,ls_fragment);
+        }
+        else
+        {
+            PM_fragment pm_fragment = new PM_fragment();
+            fragmentTransaction.replace(android.R.id.content,pm_fragment);
+        }
+        fragmentTransaction.commit();
         setContentView(R.layout.activity_main);
-        Log.d(Msg, " The onCreate: Event ");
+        Log.d("this  is Main", " The onCreate: Event ");
+
+
     }
 
-    @Override
-    protected void onStart()
-    {
-        super.onStart();
-        Log.d(Msg,"the Onstart() event");
-    }
-
-    @Override
-    protected void onResume()
-    {
-        super.onResume();
-        Log.d(Msg,"This is Onresume event");
-    }
-
-    @Override
-    protected void onPause()
-    {
-        super.onPause();
-        Log.d(Msg,"This is onPause Event");
-    }
-    @Override
-    protected void onDestroy()
-    {
-        super.onDestroy();
-        Log.d(Msg,"This is Ondestroy Event");
-    }
-
-    @Override
-    protected void onStop()
-    {
-       super.onStop();
-        Log.d(Msg,"This is OnStop() Event");
-    }
-
-    @Override
-    protected void onRestart()
-    {
-        super.onRestart();
-        Log.d(Msg,"This is OnRestart() event");
-    }
-
-    public void startService(View view) {
-        startService(new Intent(getBaseContext(), MyService.class));
-    }
-
-    // Method to stop the service
-    public void stopService(View view) {
-        stopService(new Intent(getBaseContext(), MyService.class));
-    }
 }
+
